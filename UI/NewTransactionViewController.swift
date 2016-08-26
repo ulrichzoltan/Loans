@@ -53,6 +53,24 @@ class NewTransactionViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func didTapOK(sender: AnyObject) {
 
+        TouchID.sharedInstance.scanFinger(
+            "Are you sure?",
+            fallbackEnabled: false) { error in
+
+            guard let error = error else {
+                return
+            }
+            switch error {
+
+            case .AuthenticationFailed, .UserFallback, .UserCancel, .SystemCancel, .AppCancel, .InvalidContext:
+                return
+            case .PasscodeNotSet, .TouchIDNotAvailable, .TouchIDNotEnrolled:
+                break
+            default:
+                return
+            }
+        }
+
         if segmentedControl.selectedSegmentIndex == 0 {
 
             pendingTransaction = Transaction(withUserId: user.id,

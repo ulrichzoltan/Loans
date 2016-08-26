@@ -53,13 +53,14 @@ extension BuddyListViewController: TransactionServiceDelegate {
     func didReceive(transaction transaction: Transaction) {
         
         print("Received transaction: \(transaction)")
-        let response = Response(success: true, message: "Thanks for the loan.")
 
-        transaction.amount = -transaction.amount
-        appDelegate?.loans?.update(transaction)
-        
-        transactionService!.send(response, to: transaction.userId) { error in
-            print("Sent response.")
+        dispatch_async(dispatch_get_main_queue()) {
+            
+            let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
+            let pendingVC = storyboard.instantiateViewControllerWithIdentifier("pending") as! PendingLoanViewController
+            pendingVC.transaction = transaction
+
+            self.navigationController?.presentViewController(pendingVC, animated: true, completion: nil)
         }
     }
     
