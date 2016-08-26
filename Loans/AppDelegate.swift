@@ -12,15 +12,12 @@ import IQKeyboardManagerSwift
 
 var appDelegate: AppDelegate? = nil
 var transactionService: TransactionService? = nil
-var user: User? = User.savedUser()
+var user: User? = nil
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDelegate {
 
     var window: UIWindow?
-
-    var transactionService: TransactionService! = nil
-    var user: User? = nil
     var loans: Loans? = nil
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
@@ -29,6 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         IQKeyboardManager.sharedManager().enable = true
         application.statusBarHidden = true
 
+        user = User.savedUser()
         appDelegate = self
 
         loans = Loans()
