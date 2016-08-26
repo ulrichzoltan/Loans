@@ -10,11 +10,11 @@ import Foundation
 
 class Response: NSObject {
     
-    let success: BOOL
+    let success: Bool
     let message: String
     
-    init(withSuccess success: BOOL,
-                     message message: String)
+    init(withSuccess success: Bool,
+                     andMessage message: String)
     {
         self.success = success
         self.message = message

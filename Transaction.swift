@@ -14,23 +14,23 @@ class Transaction: NSObject, NSCoding {
         static let userId = "userId"
         static let amount = "amount"
         static let date = "date"
-        static let description = "description"
+        static let message = "message"
     }
     
     let userId: String
     let amount: Int
     let date: NSTimeInterval
-    let description: String
+    let message: String
     
     init(withUserId userId: String,
-                    amount amount: Int,
-                          date date: NSTimeInterval,
-                               description description: String) {
+                    andAmount amount: Int,
+                          onDate date: NSTimeInterval,
+                               withMessage message: String) {
         
         self.userId = userId
         self.amount = amount
         self.date = date
-        self.description = description
+        self.message = message
         
         super.init()
     }
@@ -40,7 +40,7 @@ class Transaction: NSObject, NSCoding {
         userId = aDecoder.decodeObjectForKey(Keys.userId) as! String
         amount = aDecoder.decodeObjectForKey(Keys.amount) as! Int
         date = aDecoder.decodeObjectForKey(Keys.date) as! NSTimeInterval
-        description = aDecoder.decodeObjectForKey(Keys.description) as! String
+        message = aDecoder.decodeObjectForKey(Keys.message) as! String
     }
     
     @objc func encodeWithCoder(aCoder: NSCoder) {
@@ -48,7 +48,7 @@ class Transaction: NSObject, NSCoding {
         aCoder.encodeObject(userId, forKey: Keys.userId)
         aCoder.encodeObject(amount, forKey: Keys.amount)
         aCoder.encodeObject(date, forKey: Keys.date)
-        aCoder.encodeObject(description, forKey: Keys.description)
+        aCoder.encodeObject(message, forKey: Keys.message)
     }
 }
 
