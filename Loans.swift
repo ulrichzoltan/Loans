@@ -21,10 +21,7 @@ class Loans: NSObject, NSCoding {
     override init() {
         
         self.transactions = TransactionList()
-        
         super.init()
-        
-        self.load()
     }
     
     init(withTransactions transactions: TransactionList) {
@@ -59,8 +56,13 @@ class Loans: NSObject, NSCoding {
     
     func load(){
         
-        let transactionsData = NSUserDefaults.standardUserDefaults().objectForKey(Keys.transactions) as! NSData
-        self.transactions = NSKeyedUnarchiver.unarchiveObjectWithData(transactionsData) as! TransactionList
+        if let transactionsData = NSUserDefaults.standardUserDefaults().objectForKey(Keys.transactions) as? NSData {
+            self.transactions = NSKeyedUnarchiver.unarchiveObjectWithData(transactionsData) as! TransactionList
+        }
+        else {
+            self.transactions = TransactionList()
+            self.save()
+        }
     }
     
     // operations
