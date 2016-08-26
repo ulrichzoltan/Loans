@@ -10,12 +10,14 @@ import Foundation
 import PubNub
 
 
-class PubNubClient: NSObject {
+class PubNubClient: NSObject, NetworkClient {
 
     let pubNub: PubNub
     let channel: String
+    var remoteChannel: String? = nil
+    weak var delegate: NetworkClientDelegate? = nil
 
-    init(withUser user: User) {
+    required init(withUser user: User) {
 
         let configuration = PNConfiguration(publishKey: "pub-c-c679c7c3-4bfd-44e9-9a1c-d9f4290be09f",
                                             subscribeKey: "sub-c-4df47f2a-6ac1-11e6-80e7-02ee2ddab7fe")
@@ -25,7 +27,35 @@ class PubNubClient: NSObject {
         super.init()
 
         pubNub.addListener(self)
-        pubNub.subscribeToChannels([channel], withPresence: true)
+    }
+
+    func openConnection(to: String, completion: ((error: NSError?) -> ())?) {
+
+        remoteChannel = to
+        pubNub.subscribeToChannels([to], withPresence: true)
+    }
+
+    func closeConnection(to: String) {
+
+        pubNub.unsubscribeFromChannels([to], withPresence: true)
+        remoteChannel = nil
+    }
+
+    func sendMessage(message: NSData, to destinationID: String, completion: (error: NSError?) -> ()) {
+
+        pubNub.publish(message, toChannel: destinationID, compressed: true) { status in
+
+            if status.error {
+                completion(error: NSError(domain: "PubNub", code: 0, userInfo: [:]))
+            } else {
+                completion(error: nil)
+            }
+        }
+    }
+
+    func setDelegate(delegate: NetworkClientDelegate) {
+
+        self.delegate = delegate
     }
 
     func registerPushToken(token: NSData) {
@@ -52,32 +82,15 @@ class PubNubClient: NSObject {
             }
         })
     }
-
-    func publish(message: String, toChannel channel: String, compressed: Bool, completion: (status: PNPublishStatus) -> Void) {
-
-        pubNub.publish(message, toChannel: channel, compressed: compressed) { status in
-            completion(status: status)
-        }
-    }
 }
 
 extension PubNubClient: PNObjectEventListener {
 
     func client(client: PubNub, didReceiveMessage message: PNMessageResult) {
 
-        // Handle new message stored in message.data.message
-        if message.data.actualChannel != nil {
-
-            // Message has been received on channel group stored in message.data.subscribedChannel.
+        if let data = message.data.message as? NSData {
+            self.delegate?.didReceive(data, from: channel)
         }
-        else {
-
-            // Message has been received on channel stored in message.data.subscribedChannel.
-        }
-
-        print("Received message: \(message.data.message) on channel " +
-            "\((message.data.actualChannel ?? message.data.subscribedChannel)!) at " +
-            "\(message.data.timetoken)")
     }
 
     // New presence event handling.
