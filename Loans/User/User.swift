@@ -12,13 +12,17 @@ class User: NSObject, NSCoding {
 
     private struct Keys {
         static let id = "id"
-        static let displayName = "displayName"
-
         static let user = "user"
     }
 
     let id: String
-    let displayName: String
+
+    init(withID id: String) {
+
+        self.id = id
+        
+        super.init()
+    }
 
     class func savedUser() -> User? {
 
@@ -38,12 +42,10 @@ class User: NSObject, NSCoding {
         // in order to test the failure case.
 
         id = aDecoder.decodeObjectForKey(Keys.id) as! String
-        displayName = aDecoder.decodeObjectForKey(Keys.displayName) as! String
     }
 
     @objc func encodeWithCoder(aCoder: NSCoder) {
 
         aCoder.encodeObject(id, forKey: Keys.id)
-        aCoder.encodeObject(displayName, forKey: Keys.displayName)
     }
 }

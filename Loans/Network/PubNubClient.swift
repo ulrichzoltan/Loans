@@ -15,12 +15,12 @@ class PubNubClient: NSObject {
     let pubNub: PubNub
     let channel: String
 
-    init(withChannel channel: String) {
+    init(withUser user: User) {
 
         let configuration = PNConfiguration(publishKey: "pub-c-c679c7c3-4bfd-44e9-9a1c-d9f4290be09f",
                                             subscribeKey: "sub-c-4df47f2a-6ac1-11e6-80e7-02ee2ddab7fe")
         pubNub = PubNub.clientWithConfiguration(configuration)
-        self.channel = channel
+        self.channel = user.id
 
         super.init()
 
