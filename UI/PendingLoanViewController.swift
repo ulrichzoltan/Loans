@@ -20,21 +20,38 @@ class PendingLoanViewController: UIViewController {
 
     @IBAction func didTapOK(sender: AnyObject) {
 
-        defer {
-            self.dismissViewControllerAnimated(true, completion: nil)
-        }
-
         guard let transaction = transaction else {
             return
         }
 
-        let response = Response(success: true, message: "Thanks for the loan.")
+        TouchID.sharedInstance.scanFinger(
+            "Are you sure?",
+            fallbackEnabled: false) { error in
 
-        transaction.amount = -transaction.amount
-        appDelegate?.loans?.update(transaction)
+            if let error = error {
 
-        transactionService!.send(response, to: transaction.userId) { error in
-            print("Sent accept response.")
+                switch error {
+
+                case .AuthenticationFailed, .UserFallback, .UserCancel, .SystemCancel, .AppCancel, .InvalidContext:
+                    return
+                case .PasscodeNotSet, .TouchIDNotAvailable, .TouchIDNotEnrolled:
+                    break
+                default:
+                    return
+                }
+            } else {
+                
+                let response = Response(success: true, message: "Thanks for the loan.")
+
+                transaction.amount = -transaction.amount
+                appDelegate?.loans?.update(transaction)
+
+                transactionService!.send(response, to: transaction.userId) { error in
+                    print("Sent accept response.")
+                }
+                
+                self.dismissViewControllerAnimated(true, completion: nil)
+            }
         }
     }
 
