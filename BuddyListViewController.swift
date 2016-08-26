@@ -31,6 +31,8 @@ extension BuddyListViewController: TransactionServiceDelegate {
 
         print("Received transaction: \(transaction)")
         let response = Response(success: true, message: "Thanks for the loan.")
+
+        transaction.amount = -transaction.amount
         appDelegate?.loans?.update(transaction)
 
         transactionService!.send(response, to: transaction.userId) { error in
