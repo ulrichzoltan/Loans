@@ -38,8 +38,9 @@ class FTUEViewController: UIViewController, UITextFieldDelegate {
 
         if let userID = userTextField.text {
 
-            let user = User(withID: userID)
-            user.save()
+            let newUser = User(withID: userID)
+            newUser.save()
+            user = newUser
 
             let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
             let dashboardVC = storyboard.instantiateViewControllerWithIdentifier("dashboard")
