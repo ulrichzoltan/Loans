@@ -132,11 +132,6 @@ extension PeerToPeerNetworkClient: MCSessionDelegate {
                     try session.sendData(sendMessageRequest.message,
                                          toPeers: [peerID],
                                          withMode: .Reliable)
-
-                    sendMessageRequest.completion(error: nil)
-                    disconnectCurrentSession()
-                    self.sendMessageRequest = nil
-
                 } catch {
                     sendMessageRequest.completion(error: NSError(domain: "Peer2Peer", code: 1, userInfo: ["reason": "Could not send data"]))
                     disconnectCurrentSession()
