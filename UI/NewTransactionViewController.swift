@@ -121,6 +121,14 @@ extension NewTransactionViewController: TransactionServiceDelegate {
         if response.success {
             pendingTransaction?.userId = transactionPartner!
             appDelegate?.loans?.update(pendingTransaction!)
+        } else {
+            dispatch_async(dispatch_get_main_queue()) {
+                let action = UIAlertController(title: "Rejected", message: "\(self.transactionPartner!) refused the transaction", preferredStyle: .Alert)
+                let defaultAction = UIAlertAction(title: "OK", style: .Default, handler: { alertAction in
+                })
+                action.addAction(defaultAction)
+                self.presentViewController(action, animated: true, completion: nil)
+            }
         }
 
         dispatch_async(dispatch_get_main_queue()) { 
