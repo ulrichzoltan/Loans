@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		4CA6FFAB1D702E5F00142D01 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA6FFAA1D702E5F00142D01 /* Transaction.swift */; };
+		4CA6FFAD1D70335600142D01 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA6FFAC1D70335600142D01 /* Request.swift */; };
+		4CA6FFAF1D70343900142D01 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA6FFAE1D70343900142D01 /* Response.swift */; };
 		67C08D611D6F91CA00247434 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67C08D601D6F91CA00247434 /* AppDelegate.swift */; };
 		67C08D631D6F91CA00247434 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67C08D621D6F91CA00247434 /* MasterViewController.swift */; };
 		67C08D651D6F91CA00247434 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67C08D641D6F91CA00247434 /* DetailViewController.swift */; };
@@ -22,6 +24,8 @@
 
 /* Begin PBXFileReference section */
 		4CA6FFAA1D702E5F00142D01 /* Transaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
+		4CA6FFAC1D70335600142D01 /* Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
+		4CA6FFAE1D70343900142D01 /* Response.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
 		67C08D5D1D6F91CA00247434 /* Loans.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Loans.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		67C08D601D6F91CA00247434 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		67C08D621D6F91CA00247434 /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
@@ -31,7 +35,7 @@
 		67C08D6C1D6F91CA00247434 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		67C08D6E1D6F91CA00247434 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		67C08D741D70034D00247434 /* PubNubClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PubNubClient.swift; path = Network/PubNubClient.swift; sourceTree = "<group>"; };
-		67FDF1201D701B4C00FDB546 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = User.swift; path = User/User.swift; sourceTree = "<group>"; };
+		67FDF1201D701B4C00FDB546 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = User.swift; path = Loans/User/User.swift; sourceTree = "<group>"; };
 		67FDF1221D70282800FDB546 /* PeerToPeerNetworkClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PeerToPeerNetworkClient.swift; path = Network/PeerToPeerNetworkClient.swift; sourceTree = "<group>"; };
 		8B53C7D3A014FE178AA8C605 /* Pods-Loans.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Loans.release.xcconfig"; path = "Pods/Target Support Files/Pods-Loans/Pods-Loans.release.xcconfig"; sourceTree = "<group>"; };
 		9BE8750F4C81B77E05035741 /* Pods-Loans.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Loans.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Loans/Pods-Loans.debug.xcconfig"; sourceTree = "<group>"; };
@@ -70,7 +74,10 @@
 		4CA6FFA51D702DDA00142D01 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				67FDF1201D701B4C00FDB546 /* User.swift */,
 				4CA6FFAA1D702E5F00142D01 /* Transaction.swift */,
+				4CA6FFAC1D70335600142D01 /* Request.swift */,
+				4CA6FFAE1D70343900142D01 /* Response.swift */,
 			);
 			name = Data;
 			sourceTree = "<group>";
@@ -97,7 +104,6 @@
 		67C08D5F1D6F91CA00247434 /* Loans */ = {
 			isa = PBXGroup;
 			children = (
-				67FDF1201D701B4C00FDB546 /* User.swift */,
 				67C08D601D6F91CA00247434 /* AppDelegate.swift */,
 				67FDF1221D70282800FDB546 /* PeerToPeerNetworkClient.swift */,
 				67C08D621D6F91CA00247434 /* MasterViewController.swift */,
@@ -235,8 +241,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				67C08D751D70034D00247434 /* PubNubClient.swift in Sources */,
+				4CA6FFAD1D70335600142D01 /* Request.swift in Sources */,
 				67C08D651D6F91CA00247434 /* DetailViewController.swift in Sources */,
 				4CA6FFAB1D702E5F00142D01 /* Transaction.swift in Sources */,
+				4CA6FFAF1D70343900142D01 /* Response.swift in Sources */,
 				67C08D631D6F91CA00247434 /* MasterViewController.swift in Sources */,
 				67FDF1211D701B4C00FDB546 /* User.swift in Sources */,
 				67FDF1231D70282800FDB546 /* PeerToPeerNetworkClient.swift in Sources */,
