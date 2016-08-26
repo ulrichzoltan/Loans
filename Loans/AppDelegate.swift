@@ -23,24 +23,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         // Override point for customization after application launch.
         IQKeyboardManager.sharedManager().enable = true
 
-        if let user = User.savedUser() {
-            self.user = user
-        } else {
-            self.user = User(withID: "Alpar")
-            self.user?.save()
-        }
-
-        networkClient = PeerToPeerNetworkClient(withUser: user!)
-        networkClient.setDelegate(self)
-
-//        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(10 * Double(NSEC_PER_SEC)))
-//        dispatch_after(delayTime, dispatch_get_main_queue()) {
-//
-//            self.peerToPeerNetworkClient?.sendMessage("Hi there!", to: "Alpar", completion: { (error) in
-//                print("Sent message with error: \(error)")
-//            })
-//        }
-
         application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Badge, .Sound, .Alert], categories: nil))
         application.registerForRemoteNotifications()
 
