@@ -3,3 +3,4 @@ use_frameworks!
 
 target 'Loans'
 pod 'PubNub'
+pod 'IQKeyboardManagerSwift'
