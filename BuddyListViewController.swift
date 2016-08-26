@@ -44,7 +44,16 @@ class BuddyListViewController: UIViewController, UITableViewDelegate, UITableVie
         
         let cell:UITableViewCell = UITableViewCell(style: .Value1, reuseIdentifier: "cell")
         cell.textLabel?.text = (self.buddyList[indexPath.row] as! Transaction).userId
+        if ((self.buddyList[indexPath.row] as! Transaction).amount) > 0 {
+            cell.detailTextLabel?.textColor = UIColor.greenColor()
+        } else {
+            cell.detailTextLabel?.textColor = UIColor.redColor()
+        }
+        
         cell.detailTextLabel?.text = String((self.buddyList[indexPath.row] as! Transaction).amount)
+        
+        
+        
         cell.backgroundColor = UIColor.clearColor()
         
         return cell
