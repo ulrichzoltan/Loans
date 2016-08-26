@@ -52,6 +52,7 @@ class PeerToPeerNetworkClient: NSObject, NetworkClient {
             self.currentSession = createSession()
             self.currentSession!.delegate = self
             browser.invitePeer(peer, toSession: self.currentSession!, withContext: nil, timeout: 10)
+
         } else {
             completion(error: NSError(domain: "Peer2Peer", code: 0, userInfo: ["reason": "No peer:\(destinationID) found nearby."]))
         }
@@ -67,6 +68,12 @@ class PeerToPeerNetworkClient: NSObject, NetworkClient {
     private func createSession() -> MCSession {
 
         return MCSession(peer: localPeerID, securityIdentity: nil, encryptionPreference: MCEncryptionPreference.Required)
+    }
+
+    private func disconnectCurrentSession() {
+
+        currentSession?.disconnect()
+        currentSession = nil
     }
 }
 
@@ -110,24 +117,39 @@ extension PeerToPeerNetworkClient: MCNearbyServiceBrowserDelegate {
 extension PeerToPeerNetworkClient: MCSessionDelegate {
 
     func session(session: MCSession, peer peerID: MCPeerID, didChangeState state: MCSessionState) {
+
         NSLog("%@", "peer \(peerID) didChangeState: \(state.stringValue())")
 
+        guard session == self.currentSession else {
+            return
+        }
+
         switch state {
+
         case .Connected:
             if let sendMessageRequest = sendMessageRequest {
                 do {
                     try session.sendData(sendMessageRequest.message,
                                          toPeers: [peerID],
                                          withMode: .Reliable)
+
+                    sendMessageRequest.completion(error: nil)
+                    disconnectCurrentSession()
+                    self.sendMessageRequest = nil
+
                 } catch {
                     sendMessageRequest.completion(error: NSError(domain: "Peer2Peer", code: 1, userInfo: ["reason": "Could not send data"]))
+                    disconnectCurrentSession()
+                    self.sendMessageRequest = nil
                 }
             }
 
-
         case .NotConnected:
+
             if let sendMessageRequest = sendMessageRequest {
                 sendMessageRequest.completion(error: NSError(domain: "Peer2Peer", code: 1, userInfo: ["reason": "Could not connect"]))
+                disconnectCurrentSession()
+                self.sendMessageRequest = nil
             }
 
         case .Connecting:
@@ -138,7 +160,12 @@ extension PeerToPeerNetworkClient: MCSessionDelegate {
     func session(session: MCSession, didReceiveData data: NSData, fromPeer peerID: MCPeerID) {
         NSLog("%@", "didReceiveData: \(String(data: data, encoding: NSUTF8StringEncoding)!)")
 
+        guard session == self.currentSession else {
+            return
+        }
+
         self.delegate?.didReceive(data, from: peerID.displayName)
+        disconnectCurrentSession()
     }
 
     func session(session: MCSession, didReceiveStream stream: NSInputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
