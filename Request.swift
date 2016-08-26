@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Transaction
 
 class Request: NSObject {
     
@@ -15,7 +14,7 @@ class Request: NSObject {
     let transaction: Transaction
     
     init(withRecipientId recipientId: String,
-                         transaction transaction: Transaction)
+                         andTransaction transaction: Transaction)
     {
         self.recipientId = recipientId
         self.transaction = transaction
