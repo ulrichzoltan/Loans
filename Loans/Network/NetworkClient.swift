@@ -16,6 +16,10 @@ protocol NetworkClientDelegate: class {
 protocol NetworkClient {
 
     init(withUser user: User)
+
+    func openConnection(to: String, completion: ((error: NSError?) -> ())?)
+    func closeConnection(to: String)
+
     func sendMessage(message: NSData, to destinationID: String, completion: (error: NSError?) -> ())
     func setDelegate(delegate: NetworkClientDelegate)
 }
