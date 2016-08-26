@@ -14,8 +14,13 @@ class PendingLoanViewController: UIViewController {
 
         super.viewDidLoad()
 
-        questionLbl.text =
-            "Did \(transaction!.userId) lend you \(transaction!.amount) RON for \(transaction!.message)?"
+        if transaction?.amount < 0 {
+            questionLbl.text =
+                "Did \(transaction!.userId) lend you \(-transaction!.amount) RON for \(transaction!.message)?"
+        } else {
+            questionLbl.text =
+                "Did you lend to \(transaction!.userId) \(transaction!.amount) RON for \(transaction!.message)?"
+        }
     }
 
     @IBAction func didTapOK(sender: AnyObject) {

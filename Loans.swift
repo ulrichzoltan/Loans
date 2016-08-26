@@ -72,6 +72,8 @@ class Loans: NSObject, NSCoding {
         self.transactions = transactions.filter {
             return $0.userId != transaction.userId
         }
+
+        save()
     }
     
     func update(transaction: Transaction) {
@@ -99,6 +101,8 @@ class Loans: NSObject, NSCoding {
                 remove(oldTransaction!)
             }
         }
+
+        save()
     }
 }
 
