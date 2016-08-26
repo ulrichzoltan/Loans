@@ -27,7 +27,7 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eGT-At-Nm0">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eGT-At-Nm0">
                                 <rect key="frame" x="147" y="526" width="60" height="60"/>
                                 <state key="normal" image="ok_black"/>
                                 <connections>
@@ -122,10 +122,10 @@
             </objects>
             <point key="canvasLocation" x="1535.5" y="-592.5"/>
         </scene>
-        <!--Add New Buddy-->
+        <!--New Transaction-->
         <scene sceneID="D1c-OC-MpG">
             <objects>
-                <viewController title="Add New Buddy" id="d0v-5g-F1j" customClass="AddBuddyViewController" customModule="Loans" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="New Transaction" id="d0v-5g-F1j" customClass="NewTransactionViewController" customModule="Loans" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="uFV-0p-MPj"/>
                         <viewControllerLayoutGuide type="bottom" id="RZ8-Lh-t2e"/>
@@ -140,17 +140,26 @@
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="e.g. John" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nxu-X1-cMd">
                                 <rect key="frame" x="121" y="155" width="213" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="namePhonePad" keyboardAppearance="alert" returnKeyType="done"/>
+                                <connections>
+                                    <outlet property="delegate" destination="d0v-5g-F1j" id="aNs-MS-Ok5"/>
+                                </connections>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="e.g. 16" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LAx-Wn-Jqw">
                                 <rect key="frame" x="121" y="204" width="169" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numberPad" keyboardAppearance="alert" returnKeyType="done"/>
+                                <connections>
+                                    <outlet property="delegate" destination="d0v-5g-F1j" id="pTz-bE-VMq"/>
+                                </connections>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="e.g. Today's lunch" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ekR-Gp-njC">
                                 <rect key="frame" x="121" y="259" width="213" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardAppearance="alert" returnKeyType="done"/>
+                                <connections>
+                                    <outlet property="delegate" destination="d0v-5g-F1j" id="eHd-gq-sox"/>
+                                </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qes-tb-CEd">
                                 <rect key="frame" x="34" y="159" width="50" height="21"/>
@@ -176,9 +185,18 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KbT-kr-iv4">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KbT-kr-iv4">
                                 <rect key="frame" x="157" y="527" width="60" height="60"/>
                                 <state key="normal" title="Button" image="ok_black"/>
+                                <state key="selected">
+                                    <color key="titleShadowColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleShadowColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="didTapOK:" destination="d0v-5g-F1j" eventType="touchUpInside" id="dGS-4I-pNM"/>
+                                </connections>
                             </button>
                             <view alpha="0.25" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jvp-cq-1eT">
                                 <rect key="frame" x="37" y="320" width="300" height="28"/>
@@ -192,6 +210,12 @@
                                 </segments>
                                 <color key="tintColor" red="0.30980392159999998" green="0.48627450979999998" blue="0.40784313729999999" alpha="1" colorSpace="calibratedRGB"/>
                             </segmentedControl>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Tk-6k-ITq" userLabel="NameLabel">
+                                <rect key="frame" x="121" y="159" width="213" height="21"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -202,6 +226,14 @@
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="amountTextField" destination="LAx-Wn-Jqw" id="edb-rT-8dG"/>
+                        <outlet property="detailsTextField" destination="ekR-Gp-njC" id="N8e-pl-IW9"/>
+                        <outlet property="nameLbl" destination="5Tk-6k-ITq" id="vSD-fp-Iqo"/>
+                        <outlet property="nameTextField" destination="nxu-X1-cMd" id="TJc-WR-LZK"/>
+                        <outlet property="okBtn" destination="KbT-kr-iv4" id="xfe-S8-Q8B"/>
+                        <outlet property="segmentedControl" destination="mrg-Ea-grQ" id="3kD-wp-asl"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MTh-Ig-cSv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
