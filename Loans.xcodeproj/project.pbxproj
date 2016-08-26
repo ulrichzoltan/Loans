@@ -21,6 +21,7 @@
 		67FDF1211D701B4C00FDB546 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67FDF1201D701B4C00FDB546 /* User.swift */; };
 		67FDF1231D70282800FDB546 /* PeerToPeerNetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67FDF1221D70282800FDB546 /* PeerToPeerNetworkClient.swift */; };
 		C59356A10974BE7494C7EB57 /* Pods_Loans.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E00F68115F8BD6E628CCB888 /* Pods_Loans.framework */; };
+		F2B0A6DB1D704ABF00BFAE29 /* FTUEViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B0A6DA1D704ABF00BFAE29 /* FTUEViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		8B53C7D3A014FE178AA8C605 /* Pods-Loans.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Loans.release.xcconfig"; path = "Pods/Target Support Files/Pods-Loans/Pods-Loans.release.xcconfig"; sourceTree = "<group>"; };
 		9BE8750F4C81B77E05035741 /* Pods-Loans.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Loans.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Loans/Pods-Loans.debug.xcconfig"; sourceTree = "<group>"; };
 		E00F68115F8BD6E628CCB888 /* Pods_Loans.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Loans.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2B0A6DA1D704ABF00BFAE29 /* FTUEViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FTUEViewController.swift; path = UI/FTUEViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +90,7 @@
 		67C08D541D6F91CA00247434 = {
 			isa = PBXGroup;
 			children = (
+				F2B0A6D91D704A8200BFAE29 /* UI */,
 				4CA6FFA51D702DDA00142D01 /* Data */,
 				67C08D5F1D6F91CA00247434 /* Loans */,
 				67C08D5E1D6F91CA00247434 /* Products */,
@@ -118,6 +121,14 @@
 				67C08D741D70034D00247434 /* PubNubClient.swift */,
 			);
 			path = Loans;
+			sourceTree = "<group>";
+		};
+		F2B0A6D91D704A8200BFAE29 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				F2B0A6DA1D704ABF00BFAE29 /* FTUEViewController.swift */,
+			);
+			name = UI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -253,6 +264,7 @@
 				4CA6FFB11D703A0100142D01 /* Loans.swift in Sources */,
 				67FDF1231D70282800FDB546 /* PeerToPeerNetworkClient.swift in Sources */,
 				67C08D611D6F91CA00247434 /* AppDelegate.swift in Sources */,
+				F2B0A6DB1D704ABF00BFAE29 /* FTUEViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
