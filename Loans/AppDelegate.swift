@@ -15,7 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
 
     var window: UIWindow?
 
-    var networkClient: NetworkClient! = nil
+    var transactionService: TransactionService! = nil
     var user: User? = nil
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
@@ -65,10 +65,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
     }
 }
 
-extension AppDelegate : NetworkClientDelegate {
+extension AppDelegate: TransactionServiceDelegate {
 
-    func didReceive(data: NSData, from: String) {
+    func didReceive(transaction transaction: Transaction) {
 
-        print("Received: \(String(data: data, encoding: NSUTF8StringEncoding)) from: \(from)")
+        print("Received transaction: \(transaction)")
+
+        let response = Response(recipientId: transaction.userId, success: true, message: "Thanks for the loan.")
+        transactionService.send(response) { error in
+            print("Sent response.")
+        }
+    }
+
+    func didReceive(response response: Response) {
+
+        print("Received response: \(response)")
     }
 }

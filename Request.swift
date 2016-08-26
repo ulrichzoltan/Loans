@@ -8,17 +8,10 @@
 
 import Foundation
 
-class Request {
+struct Request {
     
     let recipientId: String
     let transaction: Transaction
-    
-    init(withRecipientId recipientId: String,
-                         andTransaction transaction: Transaction)
-    {
-        self.recipientId = recipientId
-        self.transaction = transaction
-    }
 }
 
 

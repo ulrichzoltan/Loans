@@ -8,15 +8,9 @@
 
 import Foundation
 
-class Response {
+struct Response {
     
+    let recipientId: String
     let success: Bool
     let message: String
-    
-    init(withSuccess success: Bool,
-                     andMessage message: String)
-    {
-        self.success = success
-        self.message = message
-    }
 }
