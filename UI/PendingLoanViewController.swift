@@ -14,12 +14,12 @@ class PendingLoanViewController: UIViewController {
 
         super.viewDidLoad()
 
-        if transaction?.amount < 0 {
+        if transaction?.amount >= 0 {
             questionLbl.text =
-                "Did \(transaction!.userId) lend you \(-transaction!.amount) RON for \(transaction!.message)?"
+                "Did \(transaction!.userId) lend you \(transaction!.amount) RON for \(transaction!.message)?"
         } else {
             questionLbl.text =
-                "Did you lend to \(transaction!.userId) \(transaction!.amount) RON for \(transaction!.message)?"
+                "Did you lend to \(transaction!.userId) \(-transaction!.amount) RON for \(transaction!.message)?"
         }
     }
 
