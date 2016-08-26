@@ -18,9 +18,9 @@ class Transaction: NSObject, NSCoding {
     }
     
     let userId: String
-    let amount: Int
-    let date: NSTimeInterval
-    let message: String
+    var amount: Int
+    var date: NSTimeInterval
+    var message: String
     
     init(withUserId userId: String,
                     andAmount amount: Int,
@@ -49,6 +49,15 @@ class Transaction: NSObject, NSCoding {
         aCoder.encodeObject(amount, forKey: Keys.amount)
         aCoder.encodeObject(date, forKey: Keys.date)
         aCoder.encodeObject(message, forKey: Keys.message)
+    }
+    
+    func update(withAmount amount: Int,
+                           andMessage message: String,
+                                      onDate date: NSTimeInterval) {
+        
+        self.amount += amount
+        self.message = message
+        self.date = date
     }
 }
 
