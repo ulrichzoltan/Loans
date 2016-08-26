@@ -16,7 +16,8 @@ class PeerToPeerNetworkClient: NSObject {
     let localPeerID: MCPeerID
     let advertiser: MCNearbyServiceAdvertiser
     let browser: MCNearbyServiceBrowser
-    let session: MCSession
+
+    var currentSession: MCSession
 
     var availablePeers = Set<MCPeerID>()
 
@@ -25,7 +26,6 @@ class PeerToPeerNetworkClient: NSObject {
         localPeerID = MCPeerID(displayName: user.id)
         advertiser = MCNearbyServiceAdvertiser(peer: localPeerID, discoveryInfo: nil, serviceType: PeerToPeerNetworkClient.serviceType)
         browser  = MCNearbyServiceBrowser(peer: localPeerID, serviceType: PeerToPeerNetworkClient.serviceType)
-        session = MCSession(peer: localPeerID, securityIdentity: nil, encryptionPreference: MCEncryptionPreference.Required)
 
         super.init()
 
@@ -34,8 +34,6 @@ class PeerToPeerNetworkClient: NSObject {
 
         browser.delegate = self
         browser.startBrowsingForPeers()
-
-        session.delegate = self
     }
 
     func sendMessage(message: String, to destinationID: String, completion: (error: NSError?) -> ()) {
@@ -43,13 +41,18 @@ class PeerToPeerNetworkClient: NSObject {
         if let peer = availablePeers.filter({ peerID in
             return peerID.displayName == destinationID
         }).first {
-            browser.invitePeer(peer, toSession: self.session, withContext: nil, timeout: 10)
+
+            createSession()
+            browser.invitePeer(peer, toSession: self.currentSession, withContext: nil, timeout: 10)
+        } else {
+            completion(error: NSError(domain: "Peer2Peer", code: 0, userInfo: ["reason": "No peer:\(destinationID) found nearby."]))
         }
     }
 
-    private func sendMessage(message: String, to peer: MCPeerID, completion: (error: NSError?) -> ()) {
+    private func createSession() {
 
-        let session = MCSession(peer: peer)
+        currentSession = MCSession(peer: localPeerID, securityIdentity: nil, encryptionPreference: MCEncryptionPreference.Required)
+        currentSession.delegate = self
     }
 }
 
@@ -57,8 +60,10 @@ extension PeerToPeerNetworkClient: MCNearbyServiceAdvertiserDelegate {
 
     @objc func advertiser(advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: NSData?, invitationHandler: (Bool, MCSession) -> Void) {
 
+        createSession()
+
         print("Did receive invitation from: \(peerID.displayName)")
-        invitationHandler(true, session)
+        invitationHandler(true, currentSession)
     }
 
 
