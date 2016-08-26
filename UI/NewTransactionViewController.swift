@@ -15,7 +15,9 @@ class NewTransactionViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var okBtn: UIButton!
     var name: String?
     let user: User
+
     var pendingTransaction: Transaction? = nil
+    var transactionPartner: String? = nil
 
     let transactionService: TransactionService
 
@@ -57,8 +59,6 @@ class NewTransactionViewController: UIViewController, UITextFieldDelegate {
                                           andAmount: Int(amountTextField.text!)!,
                                           onDate: NSDate().timeIntervalSince1970,
                                           withMessage: detailsTextField.text!)
-
-
         } else {
             pendingTransaction = Transaction(withUserId: user.id,
                                       andAmount: -Int(amountTextField.text!)!,
@@ -66,9 +66,11 @@ class NewTransactionViewController: UIViewController, UITextFieldDelegate {
                                       withMessage: detailsTextField.text!)
         }
 
-        let request = Request(recipientId: nameTextField.text!, transaction: pendingTransaction!)
+        transactionPartner = nameTextField.text!
+
+        let request = Request(recipientId: transactionPartner!, transaction: pendingTransaction!)
         transactionService.send(request) { error in
-            print("Sent request to: \(self.nameTextField.text!) with error: \(error)")
+            print("Sent request to: \(self.transactionPartner!) with error: \(error)")
         }
     }
     
@@ -117,9 +119,12 @@ extension NewTransactionViewController: TransactionServiceDelegate {
         print("Received response: \(response)")
 
         if response.success {
+            pendingTransaction?.userId = transactionPartner!
             appDelegate?.loans?.update(pendingTransaction!)
         }
 
-        self.navigationController?.popViewControllerAnimated(true)
+        dispatch_async(dispatch_get_main_queue()) { 
+            self.navigationController?.popViewControllerAnimated(true)
+        }
     }
 }

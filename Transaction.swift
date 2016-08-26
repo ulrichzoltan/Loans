@@ -17,7 +17,7 @@ class Transaction: NSObject, NSCoding {
         static let message = "message"
     }
     
-    let userId: String
+    var userId: String
     var amount: Int
     var date: NSTimeInterval
     var message: String
