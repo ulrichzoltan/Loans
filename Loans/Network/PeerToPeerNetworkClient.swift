@@ -16,10 +16,9 @@ class PeerToPeerNetworkClient: NSObject {
     let localPeerID: MCPeerID
     let advertiser: MCNearbyServiceAdvertiser
     let browser: MCNearbyServiceBrowser
-
     var currentSession: MCSession? = nil
-
     var availablePeers = Set<MCPeerID>()
+    var sendMessageCompletion: ((error: NSError?) -> ())? = nil
 
     init(withUser user: User) {
 
@@ -48,6 +47,8 @@ class PeerToPeerNetworkClient: NSObject {
         } else {
             completion(error: NSError(domain: "Peer2Peer", code: 0, userInfo: ["reason": "No peer:\(destinationID) found nearby."]))
         }
+
+        sendMessageCompletion = completion
     }
 
     private func createSession() -> MCSession {
@@ -124,7 +125,6 @@ extension MCSessionState {
         case .NotConnected: return "NotConnected"
         case .Connecting: return "Connecting"
         case .Connected: return "Connected"
-        default: return "Unknown"
         }
     }
 }

@@ -33,6 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
             self.user = user
         } else {
             self.user = User(withID: "Zoli")
+            self.user?.save()
         }
 
         pubNubClient = PubNubClient(withUser: user!)
