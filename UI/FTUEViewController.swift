@@ -36,8 +36,22 @@ class FTUEViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func didTapOK(sender: AnyObject) {
         if let userID = userTextField.text {
+
             let user = User(withID: userID)
             user.save()
+
+            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+            appDelegate.networkClient = PeerToPeerNetworkClient(withUser: user)
+            appDelegate.networkClient.setDelegate(appDelegate)
+
+//            let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(10 * Double(NSEC_PER_SEC)))
+//            dispatch_after(delayTime, dispatch_get_main_queue()) {
+//
+//                let message = "Hi there!".dataUsingEncoding(NSUTF8StringEncoding)!
+//                appDelegate.networkClient.sendMessage(message, to: "Alpar", completion: { (error) in
+//                    print("Sent message with error: \(error)")
+//                })
+//            }
         }
     }
 }

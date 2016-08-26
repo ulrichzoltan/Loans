@@ -263,8 +263,11 @@
 				67C08D751D70034D00247434 /* PubNubClient.swift in Sources */,
 				4CA6FFAD1D70335600142D01 /* Request.swift in Sources */,
 				67C08D651D6F91CA00247434 /* DetailViewController.swift in Sources */,
+<<<<<<< HEAD
 				F2B0A6DD1D70570400BFAE29 /* BuddyListViewController.swift in Sources */,
+=======
 				6771F23B1D7049BB00C66A6D /* NetworkClient.swift in Sources */,
+>>>>>>> 3db00ea2655e2ff405ecf1651b5168c1c499c862
 				4CA6FFAB1D702E5F00142D01 /* Transaction.swift in Sources */,
 				4CA6FFAF1D70343900142D01 /* Response.swift in Sources */,
 				67C08D631D6F91CA00247434 /* MasterViewController.swift in Sources */,

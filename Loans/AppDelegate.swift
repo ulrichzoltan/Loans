@@ -15,8 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
 
     var window: UIWindow?
 
-    var pubNubClient: PubNubClient? = nil
-    var peerToPeerNetworkClient: PeerToPeerNetworkClient? = nil
+    var networkClient: NetworkClient! = nil
     var user: User? = nil
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
@@ -24,15 +23,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         // Override point for customization after application launch.
         IQKeyboardManager.sharedManager().enable = true
         application.statusBarHidden = true
-
-        if let user = User.savedUser() {
-            self.user = user
-        } else {
-            self.user = User(withID: "Zoli")
-        }
-
-        pubNubClient = PubNubClient(withUser: user!)
-        peerToPeerNetworkClient = PeerToPeerNetworkClient(withUser: user!)
 
         application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Badge, .Sound, .Alert], categories: nil))
         application.registerForRemoteNotifications()
@@ -71,8 +61,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
 
         print("Token: \(deviceToken.base64EncodedDataWithOptions([]))")
 
-        pubNubClient?.registerPushToken(deviceToken)
+//        pubNubClient?.registerPushToken(deviceToken)
     }
+}
 
+extension AppDelegate : NetworkClientDelegate {
 
+    func didReceive(data: NSData, from: String) {
+
+        print("Received: \(String(data: data, encoding: NSUTF8StringEncoding)) from: \(from)")
+    }
 }

@@ -9,23 +9,30 @@
 import Foundation
 import MultipeerConnectivity
 
-class PeerToPeerNetworkClient: NSObject {
+class PeerToPeerNetworkClient: NSObject, NetworkClient {
 
-    static let serviceType = "loans-service";
+    private struct SendMessageRequest {
+        let message: NSData
+        var completion: ((error: NSError?) -> ())
+    }
 
-    let localPeerID: MCPeerID
-    let advertiser: MCNearbyServiceAdvertiser
-    let browser: MCNearbyServiceBrowser
-    let session: MCSession
+    private static let serviceType = "loans-service";
 
-    var availablePeers = Set<MCPeerID>()
+    private let localPeerID: MCPeerID
+    private let advertiser: MCNearbyServiceAdvertiser
+    private let browser: MCNearbyServiceBrowser
+    private var currentSession: MCSession? = nil
+    private var availablePeers = Set<MCPeerID>()
 
-    init(withUser user: User) {
+    private var sendMessageRequest: SendMessageRequest? = nil
+    private weak var delegate: NetworkClientDelegate? = nil
+
+
+    required init(withUser user: User) {
 
         localPeerID = MCPeerID(displayName: user.id)
         advertiser = MCNearbyServiceAdvertiser(peer: localPeerID, discoveryInfo: nil, serviceType: PeerToPeerNetworkClient.serviceType)
         browser  = MCNearbyServiceBrowser(peer: localPeerID, serviceType: PeerToPeerNetworkClient.serviceType)
-        session = MCSession(peer: localPeerID, securityIdentity: nil, encryptionPreference: MCEncryptionPreference.Required)
 
         super.init()
 
@@ -34,22 +41,39 @@ class PeerToPeerNetworkClient: NSObject {
 
         browser.delegate = self
         browser.startBrowsingForPeers()
-
-        session.delegate = self
     }
 
-    func sendMessage(message: String, to destinationID: String, completion: (error: NSError?) -> ()) {
+    func sendMessage(message: NSData, to destinationID: String, completion: (error: NSError?) -> ()) {
 
         if let peer = availablePeers.filter({ peerID in
             return peerID.displayName == destinationID
         }).first {
-            browser.invitePeer(peer, toSession: self.session, withContext: nil, timeout: 10)
+
+            self.currentSession = createSession()
+            self.currentSession!.delegate = self
+            browser.invitePeer(peer, toSession: self.currentSession!, withContext: nil, timeout: 10)
+
+        } else {
+            completion(error: NSError(domain: "Peer2Peer", code: 0, userInfo: ["reason": "No peer:\(destinationID) found nearby."]))
         }
+
+        self.sendMessageRequest = SendMessageRequest(message: message, completion: completion)
     }
 
-    private func sendMessage(message: String, to peer: MCPeerID, completion: (error: NSError?) -> ()) {
+    func setDelegate(delegate: NetworkClientDelegate) {
 
-        let session = MCSession(peer: peer)
+        self.delegate = delegate
+    }
+
+    private func createSession() -> MCSession {
+
+        return MCSession(peer: localPeerID, securityIdentity: nil, encryptionPreference: MCEncryptionPreference.Required)
+    }
+
+    private func disconnectCurrentSession() {
+
+        currentSession?.disconnect()
+        currentSession = nil
     }
 }
 
@@ -57,10 +81,12 @@ extension PeerToPeerNetworkClient: MCNearbyServiceAdvertiserDelegate {
 
     @objc func advertiser(advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: NSData?, invitationHandler: (Bool, MCSession) -> Void) {
 
-        print("Did receive invitation from: \(peerID.displayName)")
-        invitationHandler(true, session)
-    }
+        self.currentSession = createSession()
+        self.currentSession!.delegate = self
 
+        print("Did receive invitation from: \(peerID.displayName)")
+        invitationHandler(true, currentSession!)
+    }
 
     @objc func advertiser(advertiser: MCNearbyServiceAdvertiser, didNotStartAdvertisingPeer error: NSError) {
 
@@ -91,11 +117,55 @@ extension PeerToPeerNetworkClient: MCNearbyServiceBrowserDelegate {
 extension PeerToPeerNetworkClient: MCSessionDelegate {
 
     func session(session: MCSession, peer peerID: MCPeerID, didChangeState state: MCSessionState) {
+
         NSLog("%@", "peer \(peerID) didChangeState: \(state.stringValue())")
+
+        guard session == self.currentSession else {
+            return
+        }
+
+        switch state {
+
+        case .Connected:
+            if let sendMessageRequest = sendMessageRequest {
+                do {
+                    try session.sendData(sendMessageRequest.message,
+                                         toPeers: [peerID],
+                                         withMode: .Reliable)
+
+                    sendMessageRequest.completion(error: nil)
+                    disconnectCurrentSession()
+                    self.sendMessageRequest = nil
+
+                } catch {
+                    sendMessageRequest.completion(error: NSError(domain: "Peer2Peer", code: 1, userInfo: ["reason": "Could not send data"]))
+                    disconnectCurrentSession()
+                    self.sendMessageRequest = nil
+                }
+            }
+
+        case .NotConnected:
+
+            if let sendMessageRequest = sendMessageRequest {
+                sendMessageRequest.completion(error: NSError(domain: "Peer2Peer", code: 1, userInfo: ["reason": "Could not connect"]))
+                disconnectCurrentSession()
+                self.sendMessageRequest = nil
+            }
+
+        case .Connecting:
+            break
+        }
     }
 
     func session(session: MCSession, didReceiveData data: NSData, fromPeer peerID: MCPeerID) {
-        NSLog("%@", "didReceiveData: \(data)")
+        NSLog("%@", "didReceiveData: \(String(data: data, encoding: NSUTF8StringEncoding)!)")
+
+        guard session == self.currentSession else {
+            return
+        }
+
+        self.delegate?.didReceive(data, from: peerID.displayName)
+        disconnectCurrentSession()
     }
 
     func session(session: MCSession, didReceiveStream stream: NSInputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
@@ -119,7 +189,6 @@ extension MCSessionState {
         case .NotConnected: return "NotConnected"
         case .Connecting: return "Connecting"
         case .Connected: return "Connected"
-        default: return "Unknown"
         }
     }
 }
