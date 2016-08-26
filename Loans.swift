@@ -86,9 +86,13 @@ class Loans: NSObject, NSCoding {
         }
         else {
             
-            oldTransaction!.update(withAmount: transaction.amount,
-                                   andMessage:transaction.message,
-                                   onDate:transaction.date)
+            let amount = transaction.amount
+            let message = transaction.message
+            let date = transaction.date
+
+            oldTransaction!.update(withAmount: amount,
+                                   andMessage:message,
+                                   onDate:date)
             
             if oldTransaction!.amount == 0 {
                 
