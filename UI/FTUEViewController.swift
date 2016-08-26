@@ -41,14 +41,20 @@ class FTUEViewController: UIViewController, UITextFieldDelegate {
             user.save()
 
             let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-            appDelegate.networkClient = PeerToPeerNetworkClient(withUser: user)
-            appDelegate.networkClient.setDelegate(appDelegate)
+            appDelegate.transactionService = TransactionService(withUser: user)
+            appDelegate.transactionService.delegate = appDelegate
 
 //            let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(10 * Double(NSEC_PER_SEC)))
 //            dispatch_after(delayTime, dispatch_get_main_queue()) {
 //
-//                let message = "Hi there!".dataUsingEncoding(NSUTF8StringEncoding)!
-//                appDelegate.networkClient.sendMessage(message, to: "Alpar", completion: { (error) in
+//                let request = Request(recipientId: "Alpar",
+//                                      transaction: Transaction(
+//                                        withUserId: "Zoli",
+//                                        andAmount: 100,
+//                                        onDate: NSDate().timeIntervalSince1970,
+//                                        withMessage: "Hi!"))
+//
+//                appDelegate.transactionService.send(request, completion: { error in
 //                    print("Sent message with error: \(error)")
 //                })
 //            }
