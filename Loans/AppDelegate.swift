@@ -71,8 +71,8 @@ extension AppDelegate: TransactionServiceDelegate {
 
         print("Received transaction: \(transaction)")
 
-        let response = Response(recipientId: transaction.userId, success: true, message: "Thanks for the loan.")
-        transactionService.send(response) { error in
+        let response = Response(success: true, message: "Thanks for the loan.")
+        transactionService.send(response, to: transaction.userId) { error in
             print("Sent response.")
         }
     }

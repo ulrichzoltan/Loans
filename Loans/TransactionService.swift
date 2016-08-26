@@ -50,18 +50,16 @@ class TransactionService {
         }
     }
 
-    func send(response: Response, completion: (error: NSError) -> ()) {
+    func send(response: Response, to: String, completion: (error: NSError) -> ()) {
 
         let message = "{" +
-            " \"recepientId\": \"\(response.recipientId)\"" +
             " \"success\": \(response.success)," +
             " \"message\": \"\(response.message)\"" +
         "}"
         
-        networkClient.sendMessage(message.dataUsingEncoding(NSUTF8StringEncoding)!,
-                                  to: response.recipientId) { error in
+        networkClient.sendMessage(message.dataUsingEncoding(NSUTF8StringEncoding)!, to: to) { error in
 
-            print("Successfully sent response to: \(response.recipientId)")
+            print("Successfully sent response to: \(to)")
         }
     }
 }
@@ -87,15 +85,15 @@ extension TransactionService: NetworkClientDelegate {
                     print("ERROR: Received incomplete transaction: \(transaction)")
                 }
 
-            } else if let recipientId = dictionary["recipientId"] as? String,
-                          success = dictionary["success"] as? Bool,
+            } else if let success = dictionary["success"] as? Bool,
                           message = dictionary["message"] as? String {
 
-                let response = Response(recipientId: recipientId, success: success, message: message)
-                print("INFO: Did receive response from: \(recipientId) with success: \(success) and message: \(message)")
+                let response = Response(success: success, message: message)
+                print("INFO: Did receive response from: \(from) " +
+                      "with success: \(success) and message: \(message)")
 
                 self.delegate?.didReceive(response: response)
-                networkClient.closeConnection(recipientId)
+                networkClient.closeConnection(from)
 
             } else {
                 print("ERROR: Received unrecognized data: \(dictionary)")

@@ -10,7 +10,6 @@ import Foundation
 
 struct Response {
     
-    let recipientId: String
     let success: Bool
     let message: String
 }
