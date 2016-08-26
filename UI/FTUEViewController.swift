@@ -44,7 +44,7 @@ class FTUEViewController: UIViewController, UITextFieldDelegate {
             appDelegate.transactionService = TransactionService(withUser: user)
             appDelegate.transactionService.delegate = appDelegate
 
-//            let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(10 * Double(NSEC_PER_SEC)))
+//            let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(5 * Double(NSEC_PER_SEC)))
 //            dispatch_after(delayTime, dispatch_get_main_queue()) {
 //
 //                let request = Request(recipientId: "Alpar",

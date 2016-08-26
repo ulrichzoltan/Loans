@@ -27,18 +27,26 @@ class TransactionService {
 
     func send(request: Request, completion: (error: NSError) -> ()) {
 
-        let message = "{" +
-        "   \"transaction\": {" +
-        "       \"userId\": \"\(request.transaction.userId)\"," +
-        "       \"amount\": \(request.transaction.amount)," +
-        "       \"date\": \(request.transaction.date)," +
-        "       \"message\": \"\(request.transaction.message)\"" +
-        "   }" +
-        "}"
-        networkClient.sendMessage(message.dataUsingEncoding(NSUTF8StringEncoding)!,
-                                  to: request.recipientId) { error in
+        networkClient.openConnection(request.recipientId) { error in
 
-            print("Successfully sent request to: \(request.recipientId)")
+            if let error = error {
+                completion(error: error)
+            } else {
+
+                let message = "{" +
+                    "   \"transaction\": {" +
+                    "       \"userId\": \"\(request.transaction.userId)\"," +
+                    "       \"amount\": \(request.transaction.amount)," +
+                    "       \"date\": \(request.transaction.date)," +
+                    "       \"message\": \"\(request.transaction.message)\"" +
+                    "   }" +
+                "}"
+
+                self.networkClient.sendMessage(message.dataUsingEncoding(NSUTF8StringEncoding)!,
+                                               to: request.recipientId) { error in
+                    print("Successfully sent request to: \(request.recipientId)")
+                }
+            }
         }
     }
 
@@ -87,6 +95,8 @@ extension TransactionService: NetworkClientDelegate {
                 print("INFO: Did receive response from: \(recipientId) with success: \(success) and message: \(message)")
 
                 self.delegate?.didReceive(response: response)
+                networkClient.closeConnection(recipientId)
+
             } else {
                 print("ERROR: Received unrecognized data: \(dictionary)")
             }
