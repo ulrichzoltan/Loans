@@ -6,6 +6,7 @@
 import UIKit
 
 class PendingLoanViewController: UIViewController {
+
     @IBOutlet weak var questionLbl: UILabel!
     var transaction: Transaction?
 
@@ -26,5 +27,4 @@ class PendingLoanViewController: UIViewController {
     @IBAction func didTapNotOK(sender: AnyObject) {
         
     }
-
 }

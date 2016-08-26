@@ -6,6 +6,7 @@
 import UIKit
 
 class NewTransactionViewController: UIViewController, UITextFieldDelegate {
+
     @IBOutlet weak var nameLbl: UILabel!
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var amountTextField: UITextField!
@@ -13,16 +14,31 @@ class NewTransactionViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var okBtn: UIButton!
     var name: String?
+    let user: User
+    var pendingTransaction: Transaction? = nil
+
+    let transactionService: TransactionService
+
+    required init?(coder aDecoder: NSCoder) {
+
+        user = User.savedUser()!
+        transactionService = TransactionService(withUser: user)
+
+        super.init(coder: aDecoder)
+
+        transactionService.delegate = self
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         setupScreen()
 
         // Do any additional setup after loading the view.
     }
 
     func setupScreen() {
+
         if let name = name {
             nameTextField.hidden = true
             nameLbl.hidden = false
@@ -34,17 +50,26 @@ class NewTransactionViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func didTapOK(sender: AnyObject) {
-        if segmentedControl.selectedSegmentIndex == 0 {
-            print("Gave")
-        } else {
-            print("Received")
-        }
-    }
-    
-    func createTransaction() {
-        let transaction = Transaction(withUserId: nameTextField.text!
-, andAmount: Int(amountTextField.text!)!, onDate: NSTimeInterval(), withMessage: detailsTextField.text!)
 
+        if segmentedControl.selectedSegmentIndex == 0 {
+
+            pendingTransaction = Transaction(withUserId: user.id,
+                                          andAmount: Int(amountTextField.text!)!,
+                                          onDate: NSDate().timeIntervalSince1970,
+                                          withMessage: detailsTextField.text!)
+
+
+        } else {
+            pendingTransaction = Transaction(withUserId: user.id,
+                                      andAmount: -Int(amountTextField.text!)!,
+                                      onDate: NSDate().timeIntervalSince1970,
+                                      withMessage: detailsTextField.text!)
+        }
+
+        let request = Request(recipientId: nameTextField.text!, transaction: pendingTransaction!)
+        transactionService.send(request) { error in
+            print("Sent request to: \(self.nameTextField.text!) with error: \(error)")
+        }
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
@@ -72,6 +97,29 @@ class NewTransactionViewController: UIViewController, UITextFieldDelegate {
 
         return true
     }
+}
 
+extension NewTransactionViewController: TransactionServiceDelegate {
 
+    func didReceive(transaction transaction: Transaction) {
+
+        print("Received transaction: \(transaction)")
+
+//        let response = Response(success: true, message: "Thanks for the loan.")
+//
+//        transactionService.send(response, to: transaction.userId) { error in
+//            print("Sent response.")
+//        }
+    }
+
+    func didReceive(response response: Response) {
+
+        print("Received response: \(response)")
+
+        if response.success {
+            appDelegate?.loans?.update(pendingTransaction!)
+        }
+
+        self.navigationController?.popViewControllerAnimated(true)
+    }
 }

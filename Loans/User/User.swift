@@ -26,7 +26,12 @@ class User: NSObject, NSCoding {
 
     class func savedUser() -> User? {
 
-        return NSUserDefaults.standardUserDefaults().objectForKey(Keys.user) as? User
+        if let savedData = NSUserDefaults.standardUserDefaults().objectForKey(Keys.user) as? NSData {
+            if let user = NSKeyedUnarchiver.unarchiveObjectWithData(savedData) as? User {
+                return user
+            }
+        }
+        return nil
     }
 
     func save() {

@@ -10,6 +10,10 @@ import UIKit
 import PubNub
 import IQKeyboardManagerSwift
 
+var appDelegate: AppDelegate? = nil
+var transactionService: TransactionService? = nil
+var user: User? = User.savedUser()
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDelegate {
 
@@ -17,12 +21,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
 
     var transactionService: TransactionService! = nil
     var user: User? = nil
+    var loans: Loans? = nil
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
         // Override point for customization after application launch.
         IQKeyboardManager.sharedManager().enable = true
         application.statusBarHidden = true
+
+        appDelegate = self
+
+        loans = Loans()
+        loans?.load()
+
+        if let _ = user {
+
+            let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
+            let dashboardVC = storyboard.instantiateViewControllerWithIdentifier("dashboard")
+            window?.rootViewController = dashboardVC
+        }
 
         application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Badge, .Sound, .Alert], categories: nil))
         application.registerForRemoteNotifications()
@@ -62,23 +79,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         print("Token: \(deviceToken.base64EncodedDataWithOptions([]))")
 
 //        pubNubClient?.registerPushToken(deviceToken)
-    }
-}
-
-extension AppDelegate: TransactionServiceDelegate {
-
-    func didReceive(transaction transaction: Transaction) {
-
-        print("Received transaction: \(transaction)")
-
-        let response = Response(success: true, message: "Thanks for the loan.")
-        transactionService.send(response, to: transaction.userId) { error in
-            print("Sent response.")
-        }
-    }
-
-    func didReceive(response response: Response) {
-
-        print("Received response: \(response)")
     }
 }
