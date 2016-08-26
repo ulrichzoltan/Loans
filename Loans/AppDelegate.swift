@@ -38,9 +38,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
             let dashboardVC = storyboard.instantiateViewControllerWithIdentifier("dashboard")
             window?.rootViewController = dashboardVC
         }
-
-        application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Badge, .Sound, .Alert], categories: nil))
-        application.registerForRemoteNotifications()
+//
+//        application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Badge, .Sound, .Alert], categories: nil))
+//        application.registerForRemoteNotifications()
 
         return true
     }
