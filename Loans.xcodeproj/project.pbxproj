@@ -13,6 +13,7 @@
 		4CA6FFB11D703A0100142D01 /* Loans.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA6FFB01D703A0100142D01 /* Loans.swift */; };
 		6771F23B1D7049BB00C66A6D /* NetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6771F23A1D7049BB00C66A6D /* NetworkClient.swift */; };
 		6771F23D1D705FDE00C66A6D /* TransactionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6771F23C1D705FDE00C66A6D /* TransactionService.swift */; };
+		6771F23F1D70937100C66A6D /* TouchID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6771F23E1D70937100C66A6D /* TouchID.swift */; };
 		67C08D611D6F91CA00247434 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67C08D601D6F91CA00247434 /* AppDelegate.swift */; };
 		67C08D631D6F91CA00247434 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67C08D621D6F91CA00247434 /* MasterViewController.swift */; };
 		67C08D651D6F91CA00247434 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67C08D641D6F91CA00247434 /* DetailViewController.swift */; };
@@ -37,6 +38,7 @@
 		4CA6FFB01D703A0100142D01 /* Loans.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Loans.swift; sourceTree = "<group>"; };
 		6771F23A1D7049BB00C66A6D /* NetworkClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkClient.swift; path = Network/NetworkClient.swift; sourceTree = "<group>"; };
 		6771F23C1D705FDE00C66A6D /* TransactionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionService.swift; sourceTree = "<group>"; };
+		6771F23E1D70937100C66A6D /* TouchID.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TouchID.swift; sourceTree = "<group>"; };
 		67C08D5D1D6F91CA00247434 /* Loans.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Loans.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		67C08D601D6F91CA00247434 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		67C08D621D6F91CA00247434 /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 		67C08D541D6F91CA00247434 = {
 			isa = PBXGroup;
 			children = (
+				6771F23E1D70937100C66A6D /* TouchID.swift */,
 				F2B0A6D91D704A8200BFAE29 /* UI */,
 				4CA6FFA51D702DDA00142D01 /* Data */,
 				67C08D5F1D6F91CA00247434 /* Loans */,
@@ -275,6 +278,7 @@
 				67C08D751D70034D00247434 /* PubNubClient.swift in Sources */,
 				4CA6FFAD1D70335600142D01 /* Request.swift in Sources */,
 				6771F23D1D705FDE00C66A6D /* TransactionService.swift in Sources */,
+				6771F23F1D70937100C66A6D /* TouchID.swift in Sources */,
 				67C08D651D6F91CA00247434 /* DetailViewController.swift in Sources */,
 				F2B0A6DD1D70570400BFAE29 /* BuddyListViewController.swift in Sources */,
 				6771F23B1D7049BB00C66A6D /* NetworkClient.swift in Sources */,
