@@ -18,6 +18,11 @@ class BuddyListViewController: UIViewController, UITableViewDelegate, UITableVie
         transactionService!.delegate = self
     }
     
+    override func viewWillAppear(animated: Bool) {
+        buddyList = (appDelegate?.loans?.transactions)!
+        buddyTableView.reloadData()
+
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,8 +42,10 @@ class BuddyListViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let cell:UITableViewCell = self.buddyTableView.dequeueReusableCellWithIdentifier("cell") as UITableViewCell!
+        let cell:UITableViewCell = UITableViewCell(style: .Value1, reuseIdentifier: "cell")
         cell.textLabel?.text = (self.buddyList[indexPath.row] as! Transaction).userId
+        cell.detailTextLabel?.text = String((self.buddyList[indexPath.row] as! Transaction).amount)
+        cell.backgroundColor = UIColor.clearColor()
         
         return cell
     }

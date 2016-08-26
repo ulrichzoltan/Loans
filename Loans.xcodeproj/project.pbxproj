@@ -27,6 +27,7 @@
 		F2B0A6DD1D70570400BFAE29 /* BuddyListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B0A6DC1D70570400BFAE29 /* BuddyListViewController.swift */; };
 		F2B0A6E11D706AB100BFAE29 /* NewTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B0A6E01D706AB100BFAE29 /* NewTransactionViewController.swift */; };
 		F2B0A6E31D707DC100BFAE29 /* PendingLoanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B0A6E21D707DC100BFAE29 /* PendingLoanViewController.swift */; };
+		F2B0A6E51D70965D00BFAE29 /* buddyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B0A6E41D70965D00BFAE29 /* buddyTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +55,7 @@
 		F2B0A6DC1D70570400BFAE29 /* BuddyListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuddyListViewController.swift; sourceTree = "<group>"; };
 		F2B0A6E01D706AB100BFAE29 /* NewTransactionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewTransactionViewController.swift; path = UI/NewTransactionViewController.swift; sourceTree = "<group>"; };
 		F2B0A6E21D707DC100BFAE29 /* PendingLoanViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PendingLoanViewController.swift; path = UI/PendingLoanViewController.swift; sourceTree = "<group>"; };
+		F2B0A6E41D70965D00BFAE29 /* buddyTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = buddyTableViewCell.swift; path = UI/buddyTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +144,7 @@
 				F2B0A6DC1D70570400BFAE29 /* BuddyListViewController.swift */,
 				F2B0A6E01D706AB100BFAE29 /* NewTransactionViewController.swift */,
 				F2B0A6E21D707DC100BFAE29 /* PendingLoanViewController.swift */,
+				F2B0A6E41D70965D00BFAE29 /* buddyTableViewCell.swift */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -278,6 +281,7 @@
 				4CA6FFAB1D702E5F00142D01 /* Transaction.swift in Sources */,
 				4CA6FFAF1D70343900142D01 /* Response.swift in Sources */,
 				F2B0A6E31D707DC100BFAE29 /* PendingLoanViewController.swift in Sources */,
+				F2B0A6E51D70965D00BFAE29 /* buddyTableViewCell.swift in Sources */,
 				67C08D631D6F91CA00247434 /* MasterViewController.swift in Sources */,
 				67FDF1211D701B4C00FDB546 /* User.swift in Sources */,
 				4CA6FFB11D703A0100142D01 /* Loans.swift in Sources */,
