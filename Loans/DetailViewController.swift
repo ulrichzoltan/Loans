@@ -38,7 +38,7 @@ class DetailViewController: UIViewController {
     @IBAction func publish(sender: AnyObject) {
 
         let client = (UIApplication.sharedApplication().delegate as! AppDelegate).pubNubClient
-        client.publish("Hello from the PubNub Swift SDK",
+        client?.publish("Hello from the PubNub Swift SDK",
                         toChannel: "zoli",
                         compressed: false,
                         completion: { publishStatus in

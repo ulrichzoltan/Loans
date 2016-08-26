@@ -13,7 +13,10 @@ import PubNub
 class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDelegate {
 
     var window: UIWindow?
-    let pubNubClient = PubNubClient(withChannel: "zoli")
+
+    var pubNubClient: PubNubClient? = nil
+    var peerToPeerNetworkClient: PeerToPeerNetworkClient? = nil
+    var user: User? = nil
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
@@ -22,6 +25,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         let navigationController = splitViewController.viewControllers[splitViewController.viewControllers.count-1] as! UINavigationController
         navigationController.topViewController!.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem()
         splitViewController.delegate = self
+
+        if let user = User.savedUser() {
+            self.user = user
+        } else {
+            self.user = User(withID: "Zoli")
+        }
+
+        pubNubClient = PubNubClient(withUser: user!)
+        peerToPeerNetworkClient = PeerToPeerNetworkClient(withUser: user!)
 
         application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Badge, .Sound, .Alert], categories: nil))
         application.registerForRemoteNotifications()
@@ -60,7 +72,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
 
         print("Token: \(deviceToken.base64EncodedDataWithOptions([]))")
 
-        pubNubClient.registerPushToken(deviceToken)
+        pubNubClient?.registerPushToken(deviceToken)
     }
 
     // MARK: - Split view
