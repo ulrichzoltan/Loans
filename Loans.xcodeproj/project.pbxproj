@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4CA6FFAB1D702E5F00142D01 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA6FFAA1D702E5F00142D01 /* Transaction.swift */; };
 		67C08D611D6F91CA00247434 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67C08D601D6F91CA00247434 /* AppDelegate.swift */; };
 		67C08D631D6F91CA00247434 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67C08D621D6F91CA00247434 /* MasterViewController.swift */; };
 		67C08D651D6F91CA00247434 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67C08D641D6F91CA00247434 /* DetailViewController.swift */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4CA6FFAA1D702E5F00142D01 /* Transaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
 		67C08D5D1D6F91CA00247434 /* Loans.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Loans.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		67C08D601D6F91CA00247434 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		67C08D621D6F91CA00247434 /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
@@ -63,9 +65,18 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		4CA6FFA51D702DDA00142D01 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				4CA6FFAA1D702E5F00142D01 /* Transaction.swift */,
+			);
+			name = Data;
+			sourceTree = "<group>";
+		};
 		67C08D541D6F91CA00247434 = {
 			isa = PBXGroup;
 			children = (
+				4CA6FFA51D702DDA00142D01 /* Data */,
 				67C08D5F1D6F91CA00247434 /* Loans */,
 				67C08D5E1D6F91CA00247434 /* Products */,
 				3FF2941E1E02A011F3528E65 /* Pods */,
@@ -222,6 +233,7 @@
 			files = (
 				67C08D751D70034D00247434 /* PubNubClient.swift in Sources */,
 				67C08D651D6F91CA00247434 /* DetailViewController.swift in Sources */,
+				4CA6FFAB1D702E5F00142D01 /* Transaction.swift in Sources */,
 				67C08D631D6F91CA00247434 /* MasterViewController.swift in Sources */,
 				67FDF1211D701B4C00FDB546 /* User.swift in Sources */,
 				67C08D611D6F91CA00247434 /* AppDelegate.swift in Sources */,
