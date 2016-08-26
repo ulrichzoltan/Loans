@@ -15,8 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
 
     var window: UIWindow?
 
-    var pubNubClient: PubNubClient? = nil
-    var peerToPeerNetworkClient: PeerToPeerNetworkClient? = nil
+    var networkClient: NetworkClient! = nil
     var user: User? = nil
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
@@ -27,12 +26,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         if let user = User.savedUser() {
             self.user = user
         } else {
-            self.user = User(withID: "Zoli")
+            self.user = User(withID: "Alpar")
             self.user?.save()
         }
 
-        pubNubClient = PubNubClient(withUser: user!)
-        peerToPeerNetworkClient = PeerToPeerNetworkClient(withUser: user!)
+        networkClient = PeerToPeerNetworkClient(withUser: user!)
+        networkClient.setDelegate(self)
+
+//        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(10 * Double(NSEC_PER_SEC)))
+//        dispatch_after(delayTime, dispatch_get_main_queue()) {
+//
+//            self.peerToPeerNetworkClient?.sendMessage("Hi there!", to: "Alpar", completion: { (error) in
+//                print("Sent message with error: \(error)")
+//            })
+//        }
 
         application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Badge, .Sound, .Alert], categories: nil))
         application.registerForRemoteNotifications()
@@ -71,8 +78,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
 
         print("Token: \(deviceToken.base64EncodedDataWithOptions([]))")
 
-        pubNubClient?.registerPushToken(deviceToken)
+//        pubNubClient?.registerPushToken(deviceToken)
     }
+}
 
+extension AppDelegate : NetworkClientDelegate {
 
+    func didReceive(data: NSData, from: String) {
+
+        print("Received: \(String(data: data, encoding: NSUTF8StringEncoding)) from: \(from)")
+    }
 }

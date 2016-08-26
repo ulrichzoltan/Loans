@@ -9,18 +9,26 @@
 import Foundation
 import MultipeerConnectivity
 
-class PeerToPeerNetworkClient: NSObject {
+class PeerToPeerNetworkClient: NSObject, NetworkClient {
 
-    static let serviceType = "loans-service";
+    private struct SendMessageRequest {
+        let message: NSData
+        var completion: ((error: NSError?) -> ())
+    }
 
-    let localPeerID: MCPeerID
-    let advertiser: MCNearbyServiceAdvertiser
-    let browser: MCNearbyServiceBrowser
-    var currentSession: MCSession? = nil
-    var availablePeers = Set<MCPeerID>()
-    var sendMessageCompletion: ((error: NSError?) -> ())? = nil
+    private static let serviceType = "loans-service";
 
-    init(withUser user: User) {
+    private let localPeerID: MCPeerID
+    private let advertiser: MCNearbyServiceAdvertiser
+    private let browser: MCNearbyServiceBrowser
+    private var currentSession: MCSession? = nil
+    private var availablePeers = Set<MCPeerID>()
+
+    private var sendMessageRequest: SendMessageRequest? = nil
+    private weak var delegate: NetworkClientDelegate? = nil
+
+
+    required init(withUser user: User) {
 
         localPeerID = MCPeerID(displayName: user.id)
         advertiser = MCNearbyServiceAdvertiser(peer: localPeerID, discoveryInfo: nil, serviceType: PeerToPeerNetworkClient.serviceType)
@@ -35,7 +43,7 @@ class PeerToPeerNetworkClient: NSObject {
         browser.startBrowsingForPeers()
     }
 
-    func sendMessage(message: String, to destinationID: String, completion: (error: NSError?) -> ()) {
+    func sendMessage(message: NSData, to destinationID: String, completion: (error: NSError?) -> ()) {
 
         if let peer = availablePeers.filter({ peerID in
             return peerID.displayName == destinationID
@@ -48,7 +56,12 @@ class PeerToPeerNetworkClient: NSObject {
             completion(error: NSError(domain: "Peer2Peer", code: 0, userInfo: ["reason": "No peer:\(destinationID) found nearby."]))
         }
 
-        sendMessageCompletion = completion
+        self.sendMessageRequest = SendMessageRequest(message: message, completion: completion)
+    }
+
+    func setDelegate(delegate: NetworkClientDelegate) {
+
+        self.delegate = delegate
     }
 
     private func createSession() -> MCSession {
@@ -98,10 +111,34 @@ extension PeerToPeerNetworkClient: MCSessionDelegate {
 
     func session(session: MCSession, peer peerID: MCPeerID, didChangeState state: MCSessionState) {
         NSLog("%@", "peer \(peerID) didChangeState: \(state.stringValue())")
+
+        switch state {
+        case .Connected:
+            if let sendMessageRequest = sendMessageRequest {
+                do {
+                    try session.sendData(sendMessageRequest.message,
+                                         toPeers: [peerID],
+                                         withMode: .Reliable)
+                } catch {
+                    sendMessageRequest.completion(error: NSError(domain: "Peer2Peer", code: 1, userInfo: ["reason": "Could not send data"]))
+                }
+            }
+
+
+        case .NotConnected:
+            if let sendMessageRequest = sendMessageRequest {
+                sendMessageRequest.completion(error: NSError(domain: "Peer2Peer", code: 1, userInfo: ["reason": "Could not connect"]))
+            }
+
+        case .Connecting:
+            break
+        }
     }
 
     func session(session: MCSession, didReceiveData data: NSData, fromPeer peerID: MCPeerID) {
-        NSLog("%@", "didReceiveData: \(data)")
+        NSLog("%@", "didReceiveData: \(String(data: data, encoding: NSUTF8StringEncoding)!)")
+
+        self.delegate?.didReceive(data, from: peerID.displayName)
     }
 
     func session(session: MCSession, didReceiveStream stream: NSInputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
