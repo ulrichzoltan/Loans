@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Response: NSObject {
+class Response {
     
     let success: Bool
     let message: String
@@ -18,7 +18,5 @@ class Response: NSObject {
     {
         self.success = success
         self.message = message
-        
-        super.init()
     }
 }

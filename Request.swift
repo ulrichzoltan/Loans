@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Request: NSObject {
+class Request {
     
     let recipientId: String
     let transaction: Transaction
@@ -18,8 +18,6 @@ class Request: NSObject {
     {
         self.recipientId = recipientId
         self.transaction = transaction
-        
-        super.init()
     }
 }
 
