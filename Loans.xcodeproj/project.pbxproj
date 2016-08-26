@@ -22,6 +22,7 @@
 		67FDF1231D70282800FDB546 /* PeerToPeerNetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67FDF1221D70282800FDB546 /* PeerToPeerNetworkClient.swift */; };
 		C59356A10974BE7494C7EB57 /* Pods_Loans.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E00F68115F8BD6E628CCB888 /* Pods_Loans.framework */; };
 		F2B0A6DB1D704ABF00BFAE29 /* FTUEViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B0A6DA1D704ABF00BFAE29 /* FTUEViewController.swift */; };
+		F2B0A6DD1D70570400BFAE29 /* BuddyListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B0A6DC1D70570400BFAE29 /* BuddyListViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		9BE8750F4C81B77E05035741 /* Pods-Loans.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Loans.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Loans/Pods-Loans.debug.xcconfig"; sourceTree = "<group>"; };
 		E00F68115F8BD6E628CCB888 /* Pods_Loans.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Loans.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2B0A6DA1D704ABF00BFAE29 /* FTUEViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FTUEViewController.swift; path = UI/FTUEViewController.swift; sourceTree = "<group>"; };
+		F2B0A6DC1D70570400BFAE29 /* BuddyListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuddyListViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +129,7 @@
 			isa = PBXGroup;
 			children = (
 				F2B0A6DA1D704ABF00BFAE29 /* FTUEViewController.swift */,
+				F2B0A6DC1D70570400BFAE29 /* BuddyListViewController.swift */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -257,6 +260,7 @@
 				67C08D751D70034D00247434 /* PubNubClient.swift in Sources */,
 				4CA6FFAD1D70335600142D01 /* Request.swift in Sources */,
 				67C08D651D6F91CA00247434 /* DetailViewController.swift in Sources */,
+				F2B0A6DD1D70570400BFAE29 /* BuddyListViewController.swift in Sources */,
 				4CA6FFAB1D702E5F00142D01 /* Transaction.swift in Sources */,
 				4CA6FFAF1D70343900142D01 /* Response.swift in Sources */,
 				67C08D631D6F91CA00247434 /* MasterViewController.swift in Sources */,
